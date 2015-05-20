@@ -23,8 +23,8 @@ skos_wikidata.py to query the data a bit differently:
 
     % ./skos_wikidata.py --skosxl example/uat.rdf 
 
-Because it load the entire concept scheme into memory and writes it back to disk
-after every mapping assertion it may not be practical for super large SKOS 
-concept schemes. But for thousands of concepts it's not so bad. YMMV. 
-Optimizations could be made (not saving all the time, etc) so give it 
-a try and let me know!
+Because it loads the graph for the entire concept scheme into memory and 
+writes it back to disk after every mapping assertion this may not be practical 
+for super large SKOS concept schemes. But for thousands and tens of thousands
+of concepts it's not so bad. YMMV.  Optimizations could be made 
+(not saving all the time, etc) so give it a try and let me know!
