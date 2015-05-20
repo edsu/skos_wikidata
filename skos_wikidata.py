@@ -12,30 +12,38 @@ def match(rdf_filename):
     G = Graph()
     G.parse(rdf_filename)
     q = """
-        SELECT ?concept ?label ?wikidata
+        SELECT ?concept ?label ?close ?exact ?broad ?narrow ?related
         WHERE {
             ?concept a skos:Concept .
             ?concept skos:prefLabel ?label .
             OPTIONAL {
-                ?concept skos:relatedMatch ?wikidata .
-                ?concept skos:broadMatch ?wikidata .
-                ?concept skos:narrowMatch ?wikidata . 
+                ?concept skos:closeMatch ?close .
+                ?concept skos:exactMatch ?exact .
+                ?concept skos:broadMatch ?broad .
+                ?concept skos:narrowMatch ?narrow .
+                ?concept skos:relatedMatch ?related .
             }
         }
         """
 
     count = 0
-    for concept_uri, label, wikidata_uri in G.query(q, initNs={"skos": SKOS}): 
+    for concept_uri, label, c, e, b, n, r in G.query(q, initNs={"skos": SKOS}): 
         
-        # no need to map if we already have wikidata uri
-        if wikidata_uri:
+        # no need to map again
+        if c or e or b or n or r:
+            print 'xxx', c, e, b, n, r
+            continue
+        else:
+            print c, e, b, n, r
             continue
 
         # get our wikidata suggestion
-        print("mapping %s (%s)" % (label, concept_uri))
         try:
             wd = suggest(label)
         except Quit:
+            print
+            print "Thanks for playing: you matched %s concepts" % count
+            print
             break
 
         # if we got a suggestion ask what skos relation to use to link them up
@@ -45,6 +53,7 @@ def match(rdf_filename):
             wikidata_uri = WIKIDATA[wd['id']]
             G.add((concept_uri, rel, wikidata_uri))
             G.serialize(open(rdf_filename, "w"))
+            count += 1
 
 
 def pick_rel(l1, l2):
