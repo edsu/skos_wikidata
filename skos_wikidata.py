@@ -77,6 +77,8 @@ def pick_rel(l1, l2):
         choice = raw_input().lower()[0]
         if choice == "e":
             rel = SKOS.exactMatch
+        elif choice == "c":
+            rel = SKOS.closeMatch
         elif choice == "b":
             rel = SKOS.broadMatch
         elif choice == "n":
