@@ -1,4 +1,4 @@
-# skos_wd
+# skos_wikidata
 
 An experimental command line tool for interactively matching SKOS concepts
 to Wikidata.
