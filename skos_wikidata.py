@@ -11,34 +11,11 @@ SKOSXL = Namespace("http://www.w3.org/2008/05/skos-xl#")
 WIKIDATA = Namespace("http://www.wikidata.org/entity/")
 NS = {"skos": SKOS, "skosxl": SKOSXL} 
 
+
 def match(rdf_filename, relations_prompt=False, skosxl=False):
     G = Graph()
     G.parse(rdf_filename)
-
-    # if skosxl is being used we need to look up the labels
-    # slightly differently than in vanilla skos
-
-    if skosxl:
-        label_query = \
-            """
-            ?concept skosxl:prefLabel ?labelResource .
-            ?labelResource skosxl:literalForm ?label .
-            """
-    else:
-        label_query = """?concept skos:prefLabel ?label ."""
-
-    q = """
-        SELECT ?concept ?label ?close ?exact ?broad ?narrow ?related
-        WHERE {
-            ?concept a skos:Concept .
-            %s
-            OPTIONAL { ?concept skos:closeMatch ?close . }
-            OPTIONAL { ?concept skos:exactMatch ?exact . }
-            OPTIONAL { ?concept skos:broadMatch ?broad . }
-            OPTIONAL { ?concept skos:narrowMatch ?narrow. }
-            OPTIONAL { ?concept skos:relatedMatch ?related . }
-        }
-        """ % label_query
+    q = query(skosxl)
 
     count = 0
     for concept_uri, label, c, e, b, n, r in G.query(q, initNs=NS):
@@ -86,6 +63,36 @@ def pick_rel(l1, l2):
         elif choice == "r":
             rel = SKOS.relatedMatch
     return rel
+
+
+def query(skosxl):
+
+    # if skosxl is being used we need to look up the labels
+    # slightly differently than in vanilla skos
+
+    if skosxl:
+        label_query = \
+            """
+            ?concept skosxl:prefLabel ?labelResource .
+            ?labelResource skosxl:literalForm ?label .
+            """
+    else:
+        label_query = """?concept skos:prefLabel ?label ."""
+
+    q = """
+        SELECT ?concept ?label ?close ?exact ?broad ?narrow ?related
+        WHERE {
+            ?concept a skos:Concept .
+            %s
+            OPTIONAL { ?concept skos:closeMatch ?close . }
+            OPTIONAL { ?concept skos:exactMatch ?exact . }
+            OPTIONAL { ?concept skos:broadMatch ?broad . }
+            OPTIONAL { ?concept skos:narrowMatch ?narrow. }
+            OPTIONAL { ?concept skos:relatedMatch ?related . }
+        }
+        """ % label_query
+
+    return q
 
 
 if __name__ == "__main__":
