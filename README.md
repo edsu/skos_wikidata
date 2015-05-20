@@ -29,6 +29,5 @@ for super large SKOS concept schemes. But for thousands and tens of thousands
 of concepts it's not so bad. YMMV.  Optimizations could be made 
 (not saving all the time, etc) so give it a try and let me know!
 
-Oh, and here's a video I made demonstrating the tool in action:
-
-<iframe src="https://player.vimeo.com/video/128396304" width="500" height="313" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+Oh, and [here](https://vimeo.com/128396304) is a video demonstration of
+the tool in action.
