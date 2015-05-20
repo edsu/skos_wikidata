@@ -11,9 +11,9 @@ against Wikidata entities. As assertions are added to the graph they will be
 serialized back to the RDF file. So you can quit at any time and have your work
 saved.
 
-By default skos:exactMatch assertions will be created between your SKOS
+By default `skos:exactMatch` assertions will be created between your SKOS
 concepts and Wikidata. If you would like to be more nuanced and to also use
-skos:closeMatch, skos:broadMatch, skos:narrowMatch and skos:relatedMatch
+`skos:closeMatch`, `skos:broadMatch`, `skos:narrowMatch` and `skos:relatedMatch`
 you will will want to:
 
     % ./skos_wikidata.py --relations-prompt example/uat.rdf 
