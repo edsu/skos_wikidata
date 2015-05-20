@@ -7,9 +7,9 @@ to Wikidata.
     % ./skos_wikidata.py example/uat.rdf
 
 This will look for concepts in your RDF file and ask you to match them up
-against Wikidata entities, and then say how they are related (exact, broader, 
-narrower, related). As assertions are added to the graph they will be 
-serialized back to the RDF file.
+against Wikidata entities. As assertions are added to the graph they will be 
+serialized back to the RDF file. So you can quit at any time and have your work
+saved.
 
 By default skos:exactMatch assertions will be created between your SKOS
 concepts and Wikidata. If you would like to be more nuanced and to also use
